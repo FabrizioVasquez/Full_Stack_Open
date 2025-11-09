@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    User->>Browser: Access https://studies.cs.helsinki.fi/exampleapp/spa
+
+    Browser->>Server: GET /exampleapp/spa
+    activate Server
+    Server-->>Browser: HTML document
+    deactivate Server
+
+    Browser->>Server: GET /exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET /exampleapp/spa.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
+
+    Note right of Browser: JS executes and fetches existing notes
+
+    Browser->>Server: GET /exampleapp/data.json
+    activate Server
+    Server-->>Browser: JSON [{ "content": "HTML is easy", "date": "2023-1-1" }, ...]
+    deactivate Server
+
+    Note right of Browser: Browser renders existing notes dynamically
+
+    User->>Browser: Submits new note (via form or button)
+    
+    Browser->>Server: POST /exampleapp/new_note_spa (AJAX)
+    activate Server
+    Server-->>Browser: 201 Created & [{ "content": "HTML is easy", "date": "2023-1-1" }, {"content":"new note","date":"2025-12-1"}
+    deactivate Server
+
+    Note right of Browser: JS updates the DOM — new note appears instantly
